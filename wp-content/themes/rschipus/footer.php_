@@ -1,0 +1,396 @@
+</main>
+ <?php if($post->ID !=11 && $post->ID !=12 && $post->ID !=27) { ?>
+      <footer class="footer">
+          <hr class="footer__hr">
+          <div class="wrap">
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- f-socials -->
+                <div class="f-socials">
+                    <div class="f-socials__title">Follow</div>
+                    <div class="f-socials__links">
+                        <ul class="f-socials__list">
+                            <li class="f-socials__item">
+                                <a class="f-socials__link" href="https://www.facebook.com/rschipusa/" target="_blank">
+                                    <svg class="f-socials__item-icon" role="img">
+                                        <title>Icon</title>
+                                        <use class="svg-i" xlink:href="#fbIcon" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="f-socials__item">
+                                <a class="f-socials__link" href="https://www.youtube.com/channel/UCuzz1U-IdQ13DVEfhfzAVLg" target="_blank">
+                                    <svg class="f-socials__item-icon" role="img">
+                                        <title>Icon</title>
+                                        <use class="svg-i" xlink:href="#ytSocIcon" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="f-socials__item">
+                                <a class="f-socials__link" href="https://twitter.com/rschipusa" target="_blank">
+                                    <svg class="f-socials__item-icon" role="img">
+                                        <title>Icon</title>
+                                        <use class="svg-i" xlink:href="#twIcon" />
+                                    </svg>
+                                </a>
+                            </li>
+                            <li class="f-socials__item">
+                                <a class="f-socials__link" href="https://www.instagram.com/rschipusa/" target="_blank">
+                                    <svg class="f-socials__item-icon" role="img">
+                                        <title>Icon</title>
+                                        <use class="svg-i" xlink:href="#instIcon" />
+                                    </svg>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- .f-socials -->
+              </div>
+              <div class="col-sm-6" id='footer_subscribe'>
+                <div class="subscribe subscribe_pos_footer">
+
+                  <?= do_shortcode('[contact-form-7 id="123" title="subscribe" html_class="subscribe_form_footer"]'); ?>
+
+                </div>
+              </div>
+            </div>
+            <!-- car-list -->
+            <div class="car-list">
+              <div class="car-list__mobile-title"><b>RSCHIP </b>is compatible <br>with all popular<br>makes and models</div>
+              <div class="car-list__title">Tuning</div>
+              <div class="car-list__body">
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Abarth">Abarth</a></li>
+                                        <li><a href="javascript:void(0)" title="Acura">Acura</a></li>
+                                        <li><a href="javascript:void(0)" title="Alfa Romeo">Alfa Romeo</a></li>
+                                        <li><a href="javascript:void(0)" title="Alpina">Alpina</a></li>
+                                        <li><a href="javascript:void(0)" title="Aston Martin">Aston Martin</a></li>
+                                        <li><a href="javascript:void(0)" title="Audi">Audi</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="BMW">BMW</a></li>
+                                        <li><a href="javascript:void(0)" title="Buick">Buick</a></li>
+                                        <li><a href="javascript:void(0)" title="BYD">BYD</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Cadillac">Cadillac</a></li>
+                                        <li><a href="javascript:void(0)" title="Chery">Chery</a></li>
+                                        <li><a href="javascript:void(0)" title="Chevrolet">Chevrolet</a></li>
+                                        <li><a href="javascript:void(0)" title="Chrysler">Chrysler</a></li>
+                                        <li><a href="javascript:void(0)" title="Citroen">Citroen</a></li>
+                                      </ul>
+                  </div>
+                </div>
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Daewoo">Daewoo</a></li>
+                                        <li><a href="javascript:void(0)" title="Daihatsu">Daihatsu</a></li>
+                                        <li><a href="javascript:void(0)" title="Dodge">Dodge</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="FAW">FAW</a></li>
+                                        <li><a href="javascript:void(0)" title="Ferrari">Ferrari</a></li>
+                                        <li><a href="javascript:void(0)" title="Fiat">Fiat</a></li>
+                                        <li><a href="javascript:void(0)" title="Ford">Ford</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Geely">Geely</a></li>
+                                        <li><a href="javascript:void(0)" title="GMC">GMC</a></li>
+                                        <li><a href="javascript:void(0)" title="Great Wall">Great Wall</a></li>
+                                      </ul>
+                  </div>
+                </div>
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Holden">Holden</a></li>
+                                        <li><a href="javascript:void(0)" title="Honda">Honda</a></li>
+                                        <li><a href="javascript:void(0)" title="Hummer">Hummer</a></li>
+                                        <li><a href="javascript:void(0)" title="Hyundai">Hyundai</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Infiniti">Infiniti</a></li>
+                                        <li><a href="javascript:void(0)" title="Isuzu">Isuzu</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Jaguar">Jaguar</a></li>
+                                        <li><a href="javascript:void(0)" title="Jeep">Jeep</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="KIA">KIA</a></li>
+                                        <li><a href="javascript:void(0)" title="KTM">KTM</a></li>
+                                      </ul>
+                  </div>
+                </div>
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Lamborghini">Lamborghini</a></li>
+                                        <li><a href="javascript:void(0)" title="Lancia">Lancia</a></li>
+                                        <li><a href="javascript:void(0)" title="Land Rover">Land Rover</a></li>
+                                        <li><a href="javascript:void(0)" title="Lexus">Lexus</a></li>
+                                        <li><a href="javascript:void(0)" title="Lifan">Lifan</a></li>
+                                        <li><a href="javascript:void(0)" title="Lincoln">Lincoln</a></li>
+                                        <li><a href="javascript:void(0)" title="Lotus">Lotus</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Maserati">Maserati</a></li>
+                                        <li><a href="javascript:void(0)" title="Maybach">Maybach</a></li>
+                                        <li><a href="javascript:void(0)" title="Mazda">Mazda</a></li>
+                                        <li><a href="javascript:void(0)" title="Mercedes">Mercedes</a></li>
+                                        <li><a href="javascript:void(0)" title="MG">MG</a></li>
+                                        <li><a href="javascript:void(0)" title="Mini">Mini</a></li>
+                                        <li><a href="javascript:void(0)" title="Mitsubishi">Mitsubishi</a></li>
+                                      </ul>
+                  </div>
+                </div>
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Nissan">Nissan</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Opel">Opel</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Pagani">Pagani</a></li>
+                                        <li><a href="javascript:void(0)" title="Perodua">Perodua</a></li>
+                                        <li><a href="javascript:void(0)" title="Peugeot">Peugeot</a></li>
+                                        <li><a href="javascript:void(0)" title="Pontiac">Pontiac</a></li>
+                                        <li><a href="javascript:void(0)" title="Porsche">Porsche</a></li>
+                                        <li><a href="javascript:void(0)" title="Proton">Proton</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Renault">Renault</a></li>
+                                        <li><a href="javascript:void(0)" title="Roewe">Roewe</a></li>
+                                        <li><a href="javascript:void(0)" title="Rolls-Royce">Rolls-Royce</a></li>
+                                        <li><a href="javascript:void(0)" title="Rover">Rover</a></li>
+                                      </ul>
+                  </div>
+                </div>
+                <div class="car-list__col">
+                  <div class="car-list__col-inner">
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Saab">Saab</a></li>
+                                        <li><a href="javascript:void(0)" title="Seat">Seat</a></li>
+                                        <li><a href="javascript:void(0)" title="Skoda">Skoda</a></li>
+                                        <li><a href="javascript:void(0)" title="Smart">Smart</a></li>
+                                        <li><a href="javascript:void(0)" title="SsangYong">SsangYong</a></li>
+                                        <li><a href="javascript:void(0)" title="Subaru">Subaru</a></li>
+                                        <li><a href="javascript:void(0)" title="Suzuki">Suzuki</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Toyota">Toyota</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Volvo">Volvo</a></li>
+                                        <li><a href="javascript:void(0)" title="Vortex">Vortex</a></li>
+                                        <li><a href="javascript:void(0)" title="VW">VW</a></li>
+                                      </ul>
+                                      <ul>
+                                        <li><a href="javascript:void(0)" title="Zotye">Zotye</a></li>
+                                      </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- .car-list -->
+            <!-- f-contacts -->
+            <div class="f-contacts">
+              <div class="f-contacts__title">Contact us</div>
+              <div class="f-contacts__row">
+                <div class="f-contacts__col"><a href="javascript:void(0)">sales@rschipus.com</a></div>
+                <div class="f-contacts__col">1201 East 5th Street
+                  <br>North Little Rock,
+                  <br>Arkansas USA, 72114</div>
+                  <div class="f-contacts__col f-contacts__col_tel_link">
+                    <div class="f-contacts__tel-link"><a href="javascript:void(0)"><?php global $mytheme; echo $mytheme['phone']; ?></a></div>
+                    <p>USA and Canada<br>Toll Free</p>
+                  </div>
+                  <div class="f-contacts__col"><a class="btn btn-blue callback-btn " data-remodal-target="modal-popup-callback" href="#" data-ripple-color="#fff">Request Callback
+                    <svg class="callback-btn__icon hidden-xs" role="img">
+                      <title>mobile icon</title>
+                      <use class="svg-i" xlink:href="#mobileIcon"/>
+                    </svg></a></div>
+                    <div class="f-contacts__col">
+                      <div class="payments">
+                        <div class="payments__row">
+                          <div class="payments__col">
+                            <svg class="payments__icon payments__icon_img_pal" role="img">
+                              <title>icon</title>
+                              <use class="svg-i" xlink:href="#paypalIcon" />
+                            </svg>
+                          </div>
+                          <div class="payments__col">
+                            <svg class="payments__icon payments__icon_img_usps" role="img">
+                              <title>icon</title>
+                              <use class="svg-i" xlink:href="#uspsIcon" />
+                            </svg>
+                          </div>
+                          <div class="payments__col">
+                            <svg class="payments__icon payments__icon_img_dhl" role="img">
+                              <title>icon</title>
+                              <use class="svg-i" xlink:href="#dhlIcon" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+            <!-- .f-contacts -->
+          </div>
+          <hr class="footer__hr">
+          <div class="wrap">
+            <div class="footer__rights">© Copyright 2016 RSCHIP. All Rights Reserved.</div>
+          </div>
+        <div class="w-subscribe">
+  <?= do_shortcode('[contact-form-7 id="129" title="subscribe_bottom" html_class="footer_pop_subscribe"]'); ?>
+          <button class="w-subscribe__close" type="button">✖</button>
+        </div>
+      </footer>
+    </div>
+
+<?php } ?>
+
+
+    <?php wp_footer(); ?>
+<!-- modals -->
+<div class="remodal" data-remodal-id="modal-popup-callback"><button data-remodal-action="close" class="remodal-close"></button>
+    <div class="white-popup-block popup" id="callbackPopup">
+      <div class="popup__descr">Please fill in the fields below<br>and we will call you back.</div>
+      <div class="popup__form-wrap">
+    <?php echo do_shortcode('[contact-form-7 id="43" title="popup-callback"]'); ?>
+      </div>
+    </div>
+</div>
+
+<div class="remodal" data-remodal-id="modal-popup-feedback"><button data-remodal-action="close" class="remodal-close"></button>
+    <div class="white-popup-block popup" id="feedbackPopup">
+      <div class="popup__descr">Please fill in the fields below<br>and we will call you back.</div>
+      <div class="popup__form-wrap">
+    <?php echo do_shortcode('[contact-form-7 id="44" title="popup-feedback"]'); ?>
+      </div>
+    </div>
+</div>
+
+<div class="remodal" data-remodal-id="modal-popup-findCar"><button data-remodal-action="close" class="remodal-close"></button>
+    <div class="white-popup-block popup popup_width_wide" id="findCar">
+      <div class="popup__descr">Please fill in the fields below<br>and we will call you back.</div>
+      <div class="popup__form-wrap">
+    <?php echo do_shortcode('[contact-form-7 id="45" title="popup-find-car"]'); ?>
+      </div>
+    </div>
+</div>
+
+<div class="remodal" data-remodal-id="modal-popup-preorder"><button data-remodal-action="close" class="remodal-close"></button>
+    <div class="white-popup-block popup" id="preorderPopup">
+      <div class="popup__descr">Please fill in the fields below<br>and we will call you back.</div>
+      <div class="popup__form-wrap">
+    <?php echo do_shortcode('[contact-form-7 id="46" title="popup-preorder"]'); ?>
+      </div>
+    </div>
+</div>
+ <script>
+                    jQuery(document).ready(function(){
+                      jQuery(".subscribe_form_footer").submit(function() { 
+                              $.ajax({
+                              type: "POST", 
+                              url: "/wp-admin/admin-ajax.php", 
+                              data: {
+                                action: 'subscribe',
+                                subscribe_mail: $('.subscribe__input').val()
+                              },
+                              success: function(data) {
+                                     //alert("Thank you for subscription");
+                                 }
+                              });
+                      });
+                      jQuery(".footer_pop_subscribe").submit(function() { 
+                              $.ajax({
+                              type: "POST", 
+                              url: "/wp-admin/admin-ajax.php", 
+                              data: {
+                                action: 'subscribe',
+                                subscribe_mail: $('.w-subscribe__input').val()
+                              },
+                              success: function(data) {
+                                     //alert("Thank you for subscription");
+                                 }
+                              });
+                      });
+
+                      jQuery(".withapp_check").on('change',function() { 
+                        if(this.checked){
+                                $.ajax({
+                                type: "POST", 
+                                url: "/wp-admin/admin-ajax.php", 
+                                data: {
+                                  action: 'price_yes'
+                                },
+                                success: function(data) {
+                                      // alert(data);
+                                      $('#rschip_price').html('$ ' + data),
+                                      $('#footer_app_price').html('$ ' + data),
+                                      $('.page-popup .product__price').find('span').html('from $ ' + data)
+
+                                   }
+
+                                });
+
+                      $('.w-product__btn').click(function () {
+                        var checked = $(".shop-product__hidden-checkbox:checked").length;
+                        if (!checked) {
+                          var inst = $('[data-remodal-id=noProducts]').remodal();
+                          inst.open();
+                          return false;
+                        }
+                        else { 
+                          window.location.href='/shop/cart1.html?variation_id=159&add-to-cart=16&attribute_pa_smartphone-controlled=yes';       
+                        }
+                      });
+
+                        }    
+                        else  {
+                                $.ajax({
+                                type: "POST", 
+                                url: "/wp-admin/admin-ajax.php", 
+                                data: {
+                                  action: 'price_no'
+                                },
+                                success: function(data) {
+                                       $('#rschip_price').html('$ ' + data),
+                                       $('#footer_app_price').html('$ ' + data),
+                                        $('.page-popup .product__price').find('span').html('from $ ' + data),
+                                       url = ''
+                                   }
+
+                                });
+
+                      $('.w-product__btn').click(function () {
+                        var checked = $(".shop-product__hidden-checkbox:checked").length;
+                        if (!checked) {
+                          var inst = $('[data-remodal-id=noProducts]').remodal();
+                          inst.open();
+                          return false;
+                        }
+                        else { 
+                          window.location.href='/shop/cart1.html?variation_id=160&add-to-cart=16&attribute_pa_smartphone-controlled=no';       
+                        }
+                      });
+                        }    
+                      });
+
+                      $('.page-popup .product__price').find('span').html('999')
+                     
+
+                  });
+
+                  </script>
+<!-- ======= -->
+  </body>
+</html>
