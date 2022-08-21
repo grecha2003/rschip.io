@@ -21,19 +21,19 @@ p,
 blockquote,
 th,
 td {
-  margin: 0;
-  padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 fieldset,
 img,
 abbr {
-  border: 0;
+	border: 0;
 }
 
 address,
@@ -45,17 +45,17 @@ em,
 strong,
 th,
 var {
-  font-style: normal;
-  font-weight: normal;
+	font-style: normal;
+	font-weight: normal;
 }
 
 ul li {
-  list-style: none;
+	list-style: none;
 }
 
 caption,
 th {
-  text-align: left;
+	text-align: left;
 }
 
 h1,
@@ -64,28 +64,28 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 100%;
-  font-weight: normal;
+	font-size: 100%;
+	font-weight: normal;
 }
 
 sup {
-  vertical-align: text-top;
+	vertical-align: text-top;
 }
 
 sub {
-  vertical-align: text-bottom;
+	vertical-align: text-bottom;
 }
 
 input,
 textarea,
 select {
-  font-family: inherit;
-  font-size: inherit;
-  font-weight: inherit;
+	font-family: inherit;
+	font-size: inherit;
+	font-weight: inherit;
 }
 
 legend {
-  color: #000;
+	color: #000;
 }
 
 article,
@@ -100,12 +100,17 @@ menu,
 nav,
 section,
 main {
-  display: block;
+	display: block;
+}
+
+.stepsImg2 {
+	width: 100%;
+	height: auto;
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+	/* max-width: 100%;
+  height: auto; */
 }
 
 /* __reset__ */
@@ -113,201 +118,201 @@ img {
 /* __base__ */
 
 .wrapper {
-  max-width: 1135px;
-  margin: 0 auto;
-  padding-left: 20px;
-  padding-right: 20px;
+	max-width: 1135px;
+	margin: 0 auto;
+	padding-left: 20px;
+	padding-right: 20px;
 }
 
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 0px;
+	width: 5px;
+	height: 0px;
 }
 
 ::-webkit-scrollbar-button {
-  width: 0px;
-  height: 0px;
+	width: 0px;
+	height: 0px;
 }
 
 ::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 50px;
+	background: transparent;
+	border-radius: 50px;
 }
 
 ::-webkit-scrollbar-track-piece {
-  background: transparent;
+	background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: -webkit-gradient(linear, left bottom, left top, from(#FF3838), to(#700ED2));
-  background: linear-gradient(0deg, #FF3838, #700ED2);
-  border-radius: 50px;
+	background: -webkit-gradient(linear, left bottom, left top, from(#FF3838), to(#700ED2));
+	background: linear-gradient(0deg, #FF3838, #700ED2);
+	border-radius: 50px;
 }
 
 ::-webkit-scrollbar-corner {
-  background: transparent;
+	background: transparent;
 }
 
 @font-face {
-  font-family: "OpenSans-Bold";
-  src: url("../fonts/OpenSans/OpenSans-Bold.ttf") format("truetype"), url("../fonts/OpenSans/OpenSans-Bold.woff") format("woff"), url("../fonts/OpenSans/OpenSans-Bold.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "OpenSans-Bold";
+	src: url("../fonts/OpenSans/OpenSans-Bold.ttf") format("truetype"), url("../fonts/OpenSans/OpenSans-Bold.woff") format("woff"), url("../fonts/OpenSans/OpenSans-Bold.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "OpenSans-Regular";
-  src: url("../fonts/OpenSans/OpenSans-Regular.ttf") format("truetype"), url("../fonts/OpenSans/OpenSans-Regular.woff") format("woff"), url("../fonts/OpenSans/OpenSans-Regular.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "OpenSans-Regular";
+	src: url("../fonts/OpenSans/OpenSans-Regular.ttf") format("truetype"), url("../fonts/OpenSans/OpenSans-Regular.woff") format("woff"), url("../fonts/OpenSans/OpenSans-Regular.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "SFUIDisplay-Regular";
-  src: url("../fonts/SFUIDisplay/SFUIDisplay-Regular.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Regular.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Regular.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "SFUIDisplay-Regular";
+	src: url("../fonts/SFUIDisplay/SFUIDisplay-Regular.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Regular.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Regular.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "SFUIDisplay-Heavy";
-  src: url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "SFUIDisplay-Heavy";
+	src: url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Heavy.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "SFUIDisplay-Bold";
-  src: url("../fonts/SFUIDisplay/SFUIDisplay-Bold.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Bold.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Bold.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "SFUIDisplay-Bold";
+	src: url("../fonts/SFUIDisplay/SFUIDisplay-Bold.ttf") format("truetype"), url("../fonts/SFUIDisplay/SFUIDisplay-Bold.woff") format("woff"), url("../fonts/SFUIDisplay/SFUIDisplay-Bold.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "SFUIText-Regular";
-  src: url("../fonts/SFUIText/SFUIText-Regular.ttf") format("truetype"), url("../fonts/SFUIText/SFUIText-Regular.woff") format("woff"), url("../fonts/SFUIText/SFUIText-Regular.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "SFUIText-Regular";
+	src: url("../fonts/SFUIText/SFUIText-Regular.ttf") format("truetype"), url("../fonts/SFUIText/SFUIText-Regular.woff") format("woff"), url("../fonts/SFUIText/SFUIText-Regular.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 @font-face {
-  font-family: "SFUIText-Bold";
-  src: url("../fonts/SFUIText/SFUIText-Bold.ttf") format("truetype"), url("../fonts/SFUIText/SFUIText-Bold.woff") format("woff"), url("../fonts/SFUIText/SFUIText-Bold.eot") format("eot");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+	font-family: "SFUIText-Bold";
+	src: url("../fonts/SFUIText/SFUIText-Bold.ttf") format("truetype"), url("../fonts/SFUIText/SFUIText-Bold.woff") format("woff"), url("../fonts/SFUIText/SFUIText-Bold.eot") format("eot");
+	font-weight: normal;
+	font-style: normal;
+	font-display: swap;
 }
 
 html {
-  scrollbar-color: #ff3a3a #000;
-  scrollbar-width: thin;
+	scrollbar-color: #ff3a3a #000;
+	scrollbar-width: thin;
 }
 
 body {
-  font-family: "OpenSans-Regular";
-  background: #000;
-  color: #ffffff;
+	font-family: "OpenSans-Regular";
+	background: #000;
+	color: #ffffff;
 }
 
 a,
 button {
-  white-space: nowrap;
+	white-space: nowrap;
 }
 
 a,
 button {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 a:focus,
 button:focus {
-  outline: none;
+	outline: none;
 }
 
 input {
-  cursor: text;
+	cursor: text;
 }
 
 input:focus {
-  outline: none;
+	outline: none;
 }
 
 a {
-  font-family: SFUIText-Regular;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 15px;
-  line-height: 100%;
-  color: rgba(255, 255, 255, 0.7);
-  text-decoration: none;
+	font-family: SFUIText-Regular;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 15px;
+	line-height: 100%;
+	color: rgba(255, 255, 255, 0.7);
+	text-decoration: none;
 }
 
 h1 {
-  font-family: SFUIDisplay-Bold;
-  font-weight: 800;
-  font-size: 48px;
-  line-height: 59px;
-  letter-spacing: 0.05em;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 125%;
+	font-family: SFUIDisplay-Bold;
+	font-weight: 800;
+	font-size: 48px;
+	line-height: 59px;
+	letter-spacing: 0.05em;
+	font-style: normal;
+	font-weight: 800;
+	font-size: 24px;
+	line-height: 125%;
 }
 
 h1 span {
-  color: #ff472e;
+	color: #ff472e;
 }
 
 h2 {
-  font-size: 36px;
+	font-size: 36px;
 }
 
 h3 {
-  font-size: 30px;
+	font-size: 30px;
 }
 
 h4 {
-  font-size: 24px;
+	font-size: 24px;
 }
 
 h5 {
-  font-size: 18px;
+	font-size: 18px;
 }
 
 h5 {
-  font-size: 15px;
+	font-size: 15px;
 }
 
 i {
-  display: inline-block;
+	display: inline-block;
 }
 
 address {
-  display: inline-block;
+	display: inline-block;
 }
 
 /* __base__ */
 
 @media screen and (min-width: 768px) {
-  .wrapper {
-    padding-left: 30px;
-    padding-right: 30px;
-  }
+	.wrapper {
+		padding-left: 30px;
+		padding-right: 30px;
+	}
 
-  h1 {
-    font-size: 48px;
-  }
+	h1 {
+		font-size: 48px;
+	}
 }
 
 @media screen and (min-width: 992px) {
-  .wrapper {
-    padding-left: 23px;
-    padding-right: 23px;
-  }
+	.wrapper {
+		padding-left: 23px;
+		padding-right: 23px;
+	}
 }
