@@ -2,7 +2,7 @@
 /**
  * WooCommerce Admin Functions
  *
- * @package  WooCommerce\Admin\Functions
+ * @package  WooCommerce/Admin/Functions
  * @version  2.4.0
  */
 
@@ -63,10 +63,9 @@ function wc_get_screen_ids() {
  * @param string $page_title (default: '') Title for the new page.
  * @param string $page_content (default: '') Content for the new page.
  * @param int    $post_parent (default: 0) Parent for the new page.
- * @param string $post_status (default: publish) The post status of the new page.
  * @return int page ID.
  */
-function wc_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0, $post_status = 'publish' ) {
+function wc_create_page( $slug, $option = '', $page_title = '', $page_content = '', $post_parent = 0 ) {
 	global $wpdb;
 
 	$option_value = get_option( $option );
@@ -111,12 +110,12 @@ function wc_create_page( $slug, $option = '', $page_title = '', $page_content = 
 		$page_id   = $trashed_page_found;
 		$page_data = array(
 			'ID'          => $page_id,
-			'post_status' => $post_status,
+			'post_status' => 'publish',
 		);
 		wp_update_post( $page_data );
 	} else {
 		$page_data = array(
-			'post_status'    => $post_status,
+			'post_status'    => 'publish',
 			'post_type'      => 'page',
 			'post_author'    => 1,
 			'post_name'      => $slug,
@@ -126,8 +125,6 @@ function wc_create_page( $slug, $option = '', $page_title = '', $page_content = 
 			'comment_status' => 'closed',
 		);
 		$page_id   = wp_insert_post( $page_data );
-
-		do_action( 'woocommerce_page_created', $page_id, $page_data );
 	}
 
 	if ( $option ) {
@@ -140,7 +137,7 @@ function wc_create_page( $slug, $option = '', $page_title = '', $page_content = 
 /**
  * Output admin fields.
  *
- * Loops through the woocommerce options array and outputs each field.
+ * Loops though the woocommerce options array and outputs each field.
  *
  * @param array $options Opens array to output.
  */
@@ -209,27 +206,17 @@ function wc_maybe_adjust_line_item_product_stock( $item, $item_quantity = -1 ) {
 		return false;
 	}
 
-	$product = $item->get_product();
+	$product               = $item->get_product();
+	$item_quantity         = wc_stock_amount( $item_quantity >= 0 ? $item_quantity : $item->get_quantity() );
+	$already_reduced_stock = wc_stock_amount( $item->get_meta( '_reduced_stock', true ) );
 
-	if ( ! $product || ! $product->managing_stock() ) {
+	if ( ! $product || ! $product->managing_stock() || ! $already_reduced_stock || $item_quantity === $already_reduced_stock ) {
 		return false;
 	}
 
-	$item_quantity          = wc_stock_amount( $item_quantity >= 0 ? $item_quantity : $item->get_quantity() );
-	$already_reduced_stock  = wc_stock_amount( $item->get_meta( '_reduced_stock', true ) );
-	$restock_refunded_items = wc_stock_amount( $item->get_meta( '_restock_refunded_items', true ) );
 	$order                  = $item->get_order();
 	$refunded_item_quantity = $order->get_qty_refunded_for_item( $item->get_id() );
-
-	$diff = $item_quantity - $restock_refunded_items - $already_reduced_stock;
-
-	/*
-	 * 0 as $item_quantity usually indicates we're deleting the order item.
-	 * Let's restore back the reduced count.
-	 */
-	if ( 0 === $item_quantity ) {
-		$diff = $already_reduced_stock * -1;
-	}
+	$diff                   = $item_quantity + $refunded_item_quantity - $already_reduced_stock;
 
 	if ( $diff < 0 ) {
 		$new_stock = wc_update_product_stock( $product, $diff * -1, 'increase' );
@@ -243,16 +230,8 @@ function wc_maybe_adjust_line_item_product_stock( $item, $item_quantity = -1 ) {
 		return $new_stock;
 	}
 
-	$item->update_meta_data( '_reduced_stock', $item_quantity - $restock_refunded_items );
+	$item->update_meta_data( '_reduced_stock', $item_quantity + $refunded_item_quantity );
 	$item->save();
-
-	if ( $item_quantity > 0 ) {
-		// If stock was reduced, then we need to mark this on parent order object as well so that cancel logic works properly.
-		$order_data_store = WC_Data_Store::load( 'order' );
-		if ( $item->get_order_id() && ! $order_data_store->get_stock_reduced( $item->get_order_id() ) ) {
-			$order_data_store->set_stock_reduced( $item->get_order_id(), true );
-		}
-	}
 
 	return array(
 		'from' => $new_stock + $diff,
@@ -272,7 +251,6 @@ function wc_save_order_items( $order_id, $items ) {
 	do_action( 'woocommerce_before_save_order_items', $order_id, $items );
 
 	$qty_change_order_notes = array();
-	$order                  = wc_get_order( $order_id );
 
 	// Line items and fees.
 	if ( isset( $items['order_item_id'] ) ) {
@@ -347,11 +325,9 @@ function wc_save_order_items( $order_id, $items ) {
 
 			$item->save();
 
-			if ( in_array( $order->get_status(), array( 'processing', 'completed', 'on-hold' ) ) ) {
-				$changed_stock = wc_maybe_adjust_line_item_product_stock( $item );
-				if ( $changed_stock && ! is_wp_error( $changed_stock ) ) {
-					$qty_change_order_notes[] = $item->get_name() . ' (' . $changed_stock['from'] . '&rarr;' . $changed_stock['to'] . ')';
-				}
+			$changed_stock = wc_maybe_adjust_line_item_product_stock( $item );
+			if ( $changed_stock && ! is_wp_error( $changed_stock ) ) {
+				$qty_change_order_notes[] = $item->get_name() . ' (' . $changed_stock['from'] . '&rarr;' . $changed_stock['to'] . ')';
 			}
 		}
 	}
@@ -453,11 +429,6 @@ function wc_render_action_buttons( $actions ) {
 function wc_render_invalid_variation_notice( $product_object ) {
 	global $wpdb;
 
-	// Give ability for extensions to hide this notice.
-	if ( ! apply_filters( 'woocommerce_show_invalid_variations_notice', true, $product_object ) ) {
-		return;
-	}
-
 	$variation_ids = $product_object ? $product_object->get_children() : array();
 
 	if ( empty( $variation_ids ) ) {
@@ -497,24 +468,4 @@ function wc_render_invalid_variation_notice( $product_object ) {
 		</div>
 		<?php
 	}
-}
-
-/**
- * Get current admin page URL.
- *
- * Returns an empty string if it cannot generate a URL.
- *
- * @internal
- * @since 4.4.0
- * @return string
- */
-function wc_get_current_admin_url() {
-	$uri = isset( $_SERVER['REQUEST_URI'] ) ? esc_url_raw( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-	$uri = preg_replace( '|^.*/wp-admin/|i', '', $uri );
-
-	if ( ! $uri ) {
-		return '';
-	}
-
-	return remove_query_arg( array( '_wpnonce', '_wc_notice_nonce', 'wc_db_update', 'wc_db_update_nonce', 'wc-hide-notice' ), admin_url( $uri ) );
 }

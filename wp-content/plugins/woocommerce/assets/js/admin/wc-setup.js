@@ -1,7 +1,6 @@
 /*global wc_setup_params */
 /*global wc_setup_currencies */
 /*global wc_base_state */
-/* @deprecated 4.6.0 */
 jQuery( function( $ ) {
 	function blockWizardUI() {
 		$('.wc-setup-content').block({
@@ -37,7 +36,7 @@ jQuery( function( $ ) {
 		} );
 
 		$( document.body ).on( 'wc_backbone_modal_response', function() {
-			form.off( 'submit' ).trigger( 'submit' );
+			form.unbind( 'submit' ).submit();
 		} );
 
 		$( '#wc_tracker_checkbox_dialog' ).on( 'change', function( e ) {
@@ -46,7 +45,7 @@ jQuery( function( $ ) {
 		} );
 
 		$( '#wc_tracker_submit' ).on( 'click', function () {
-			form.off( 'submit' ).trigger( 'submit' );
+			form.unbind( 'submit' ).submit();
 		} );
 
 		return true;
@@ -72,13 +71,13 @@ jQuery( function( $ ) {
 			} );
 
 			$( '.store-state-container' ).show();
-			$state_select.selectWoo().val( wc_base_state ).trigger( 'change' ).prop( 'required', true );
+			$state_select.selectWoo().val( wc_base_state ).change().prop( 'required', true );
 		} else {
 			$( '.store-state-container' ).hide();
-			$state_select.empty().val( '' ).trigger( 'change' ).prop( 'required', false );
+			$state_select.empty().val( '' ).change().prop( 'required', false );
 		}
 
-		$( '#currency_code' ).val( wc_setup_currencies[ country ] ).trigger( 'change' );
+		$( '#currency_code' ).val( wc_setup_currencies[ country ] ).change();
 	} );
 
 	/* Setup postcode field and validations */
@@ -96,11 +95,11 @@ jQuery( function( $ ) {
 		if ( $.isEmptyObject( country_postcode_obj ) || country_postcode_obj.required  ) {
 			$store_postcode_input.attr( 'required', 'true' );
 		} else {
-			$store_postcode_input.prop( 'required', false );
+			$store_postcode_input.removeAttr( 'required' );
 		}
 	} );
 
-	$( '#store_country' ).trigger( 'change' );
+	$( '#store_country' ).change();
 
 	$( '.wc-wizard-services' ).on( 'change', '.wc-wizard-service-enable input', function() {
 		if ( $( this ).is( ':checked' ) ) {
@@ -121,7 +120,7 @@ jQuery( function( $ ) {
 			$focused = $( document.activeElement );
 
 		if ( $focused.is( '.wc-wizard-service-toggle, .wc-wizard-service-enable' ) && ( 13 === code || 32 === code ) ) {
-			$focused.find( ':input' ).trigger( 'click' );
+			$focused.find( ':input' ).click();
 		}
 	} );
 
@@ -135,18 +134,11 @@ jQuery( function( $ ) {
 
 		var $checkbox = $( this ).find( 'input[type="checkbox"]' );
 
-		$checkbox.prop( 'checked', ! $checkbox.prop( 'checked' ) ).trigger( 'change' );
+		$checkbox.prop( 'checked', ! $checkbox.prop( 'checked' ) ).change();
 	} );
 
 	$( '.wc-wizard-services-list-toggle' ).on( 'click', function() {
-		var listToggle = $( this ).closest( '.wc-wizard-services-list-toggle' );
-
-		if ( listToggle.hasClass( 'closed' ) ) {
-			listToggle.removeClass( 'closed' );
-		} else {
-			listToggle.addClass( 'closed' );
-		}
-
+		$( this ).closest( '.wc-wizard-services-list-toggle' ).toggleClass( 'closed' );
 		$( this ).closest( '.wc-wizard-services' ).find( '.wc-wizard-service-item' )
 			.slideToggle()
 			.css( 'display', 'flex' );
@@ -172,14 +164,11 @@ jQuery( function( $ ) {
 			.removeClass( 'hide' )
 			.find( '.shipping-method-required-field' )
 			.prop( 'required', $checkbox.prop( 'checked' ) );
-	} ).find( '.wc-wizard-shipping-method-select .method' ).trigger( 'change' );
+	} ).find( '.wc-wizard-shipping-method-select .method' ).change();
 
 	$( '.wc-wizard-services' ).on( 'change', '.wc-wizard-shipping-method-enable', function() {
 		var checked = $( this ).is( ':checked' );
-		var selectedMethod = $( this )
-			.closest( '.wc-wizard-service-item' )
-			.find( '.wc-wizard-shipping-method-select .method' )
-			.val();
+		var selectedMethod = $( '.wc-wizard-shipping-method-select .method' ).val();
 
 		$( this )
 			.closest( '.wc-wizard-service-item' )
@@ -189,7 +178,7 @@ jQuery( function( $ ) {
 	} );
 
 	function submitActivateForm() {
-		$( 'form.activate-jetpack' ).trigger( 'submit' );
+		$( 'form.activate-jetpack' ).submit();
 	}
 
 	function waitForJetpackInstall() {
@@ -227,11 +216,6 @@ jQuery( function( $ ) {
 		waitForJetpackInstall();
 	} );
 
-	$( '.activate-new-onboarding' ).on( 'click', '.button-primary', function() {
-		// Show pending spinner while activate happens.
-		blockWizardUI();
-	} );
-
 	$( '.wc-wizard-services' ).on( 'change', 'input#stripe_create_account, input#ppec_paypal_reroute_requests', function() {
 		if ( $( this ).is( ':checked' ) ) {
 			$( this ).closest( '.wc-wizard-service-settings' )
@@ -246,7 +230,7 @@ jQuery( function( $ ) {
 				.prop( 'disabled', true )
 				.prop( 'required', false );
 		}
-	} ).find( 'input#stripe_create_account, input#ppec_paypal_reroute_requests' ).trigger( 'change' );
+	} ).find( 'input#stripe_create_account, input#ppec_paypal_reroute_requests' ).change();
 
 	function addPlugins( bySlug, $el, hover ) {
 		var plugins = $el.data( 'plugins' );

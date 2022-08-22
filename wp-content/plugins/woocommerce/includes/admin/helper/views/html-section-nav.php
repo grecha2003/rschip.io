@@ -2,9 +2,7 @@
 /**
  * Helper admin navigation.
  *
- * @package WooCommerce\Helper
- *
- * @deprecated 5.7.0
+ * @package WooCommerce/Helper
  */
 
 defined( 'ABSPATH' ) || exit(); ?>

@@ -6,7 +6,7 @@
  *
  * @author      WooThemes
  * @category    Admin
- * @package     WooCommerce\Admin\Meta Boxes
+ * @package     WooCommerce/Admin/Meta Boxes
  * @version     2.2.0
  */
 
@@ -39,8 +39,7 @@ class WC_Meta_Box_Order_Data {
 	public static function init_address_fields() {
 
 		self::$billing_fields = apply_filters(
-			'woocommerce_admin_billing_fields',
-			array(
+			'woocommerce_admin_billing_fields', array(
 				'first_name' => array(
 					'label' => __( 'First name', 'woocommerce' ),
 					'show'  => false,
@@ -70,11 +69,11 @@ class WC_Meta_Box_Order_Data {
 					'show'  => false,
 				),
 				'country'    => array(
-					'label'   => __( 'Country / Region', 'woocommerce' ),
+					'label'   => __( 'Country', 'woocommerce' ),
 					'show'    => false,
 					'class'   => 'js_field-country select short',
 					'type'    => 'select',
-					'options' => array( '' => __( 'Select a country / region&hellip;', 'woocommerce' ) ) + WC()->countries->get_allowed_countries(),
+					'options' => array( '' => __( 'Select a country&hellip;', 'woocommerce' ) ) + WC()->countries->get_allowed_countries(),
 				),
 				'state'      => array(
 					'label' => __( 'State / County', 'woocommerce' ),
@@ -91,8 +90,7 @@ class WC_Meta_Box_Order_Data {
 		);
 
 		self::$shipping_fields = apply_filters(
-			'woocommerce_admin_shipping_fields',
-			array(
+			'woocommerce_admin_shipping_fields', array(
 				'first_name' => array(
 					'label' => __( 'First name', 'woocommerce' ),
 					'show'  => false,
@@ -122,19 +120,16 @@ class WC_Meta_Box_Order_Data {
 					'show'  => false,
 				),
 				'country'    => array(
-					'label'   => __( 'Country / Region', 'woocommerce' ),
+					'label'   => __( 'Country', 'woocommerce' ),
 					'show'    => false,
 					'type'    => 'select',
 					'class'   => 'js_field-country select short',
-					'options' => array( '' => __( 'Select a country / region&hellip;', 'woocommerce' ) ) + WC()->countries->get_shipping_countries(),
+					'options' => array( '' => __( 'Select a country&hellip;', 'woocommerce' ) ) + WC()->countries->get_shipping_countries(),
 				),
 				'state'      => array(
 					'label' => __( 'State / County', 'woocommerce' ),
 					'class' => 'js_field-state select short',
 					'show'  => false,
-				),
-				'phone'      => array(
-					'label' => __( 'Phone', 'woocommerce' ),
 				),
 			)
 		);
@@ -347,8 +342,6 @@ class WC_Meta_Box_Order_Data {
 
 								if ( 'billing_phone' === $field_name ) {
 									$field_value = wc_make_phone_clickable( $field_value );
-								} elseif ( 'billing_email' === $field_name ) {
-									$field_value = '<a href="' . esc_url( 'mailto:' . $field_value ) . '">' . $field_value . '</a>';
 								} else {
 									$field_value = make_clickable( esc_html( $field_value ) );
 								}
@@ -409,9 +402,9 @@ class WC_Meta_Box_Order_Data {
 									}
 
 									if ( ! $found_method && ! empty( $payment_method ) ) {
-										echo '<option value="' . esc_attr( $payment_method ) . '" selected="selected">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
+										echo '<option value="' . esc_attr( $payment_method ) . '" selected="selected">' . __( 'Other', 'woocommerce' ) . '</option>';
 									} else {
-										echo '<option value="other">' . esc_html__( 'Other', 'woocommerce' ) . '</option>';
+										echo '<option value="other">' . __( 'Other', 'woocommerce' ) . '</option>';
 									}
 									?>
 								</select>
@@ -461,10 +454,6 @@ class WC_Meta_Box_Order_Data {
 										$field_value = $order->{"get_$field_name"}( 'edit' );
 									} else {
 										$field_value = $order->get_meta( '_' . $field_name );
-									}
-
-									if ( 'shipping_phone' === $field_name ) {
-										$field_value = wc_make_phone_clickable( $field_value );
 									}
 
 									if ( $field_value ) {
@@ -607,17 +596,13 @@ class WC_Meta_Box_Order_Data {
 				$payment_method_title = $methods[ $payment_method ]->get_title();
 			}
 
-			if ( $payment_method == 'other') {
-				$payment_method_title = esc_html__( 'Other', 'woocommerce' );
-			}
-			
 			$props['payment_method']       = $payment_method;
 			$props['payment_method_title'] = $payment_method_title;
 		}
 
 		// Update date.
 		if ( empty( $_POST['order_date'] ) ) {
-			$date = time();
+			$date = current_time( 'timestamp', true );
 		} else {
 			$date = gmdate( 'Y-m-d H:i:s', strtotime( $_POST['order_date'] . ' ' . (int) $_POST['order_date_hour'] . ':' . (int) $_POST['order_date_minute'] . ':' . (int) $_POST['order_date_second'] ) );
 		}

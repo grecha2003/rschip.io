@@ -2,13 +2,15 @@
 /**
  * Admin View: Report by Date (with date filters)
  *
- * @package WooCommerce\Admin\Reporting
+ * @package WooCommerce/Admin/Reporting
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
+
 ?>
+
 <div id="poststuff" class="woocommerce-reports-wide">
 	<div class="postbox">
 

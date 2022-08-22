@@ -2,80 +2,45 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { createBlock, registerBlockType } from '@wordpress/blocks';
-import { Icon, discussion } from '@woocommerce/icons';
+import { registerBlockType } from '@wordpress/blocks';
 
 /**
  * Internal dependencies
  */
 import '../editor.scss';
 import Editor from './edit';
+import { IconAllReviews } from '../../../components/icons';
 import sharedAttributes from '../attributes';
 import save from '../save.js';
-import { example } from '../example';
 
 /**
  * Register and run the "All Reviews" block.
- * This block lists all product reviews.
  */
 registerBlockType( 'woocommerce/all-reviews', {
 	title: __( 'All Reviews', 'woocommerce' ),
 	icon: {
-		src: <Icon srcElement={ discussion } />,
+		src: <IconAllReviews fillColor="#96588a" />,
 		foreground: '#96588a',
 	},
 	category: 'woocommerce',
 	keywords: [ __( 'WooCommerce', 'woocommerce' ) ],
 	description: __(
-		'Show a list of all product reviews.',
+		'Shows a list of all product reviews.',
 		'woocommerce'
 	),
-	supports: {
-		html: false,
-	},
-	example: {
-		...example,
-		attributes: {
-			...example.attributes,
-			showProductName: true,
-		},
-	},
 	attributes: {
 		...sharedAttributes,
 		/**
-		 * Show the product name.
-		 */
+		* Show the product name.
+		*/
 		showProductName: {
 			type: 'boolean',
 			default: true,
 		},
 	},
 
-	transforms: {
-		from: [
-			{
-				type: 'block',
-				blocks: [ 'core/legacy-widget' ],
-				// We can't transform if raw instance isn't shown in the REST API.
-				isMatch: ( { idBase, instance } ) =>
-					idBase === 'woocommerce_recent_reviews' && !! instance?.raw,
-				transform: ( { instance } ) =>
-					createBlock( 'woocommerce/all-reviews', {
-						reviewsOnPageLoad: instance.raw.number,
-						imageType: 'product',
-						showLoadMore: false,
-						showOrderby: false,
-						showReviewDate: false,
-						showReviewContent: false,
-					} ),
-			},
-		],
-	},
-
 	/**
 	 * Renders and manages the block.
-	 *
-	 * @param {Object} props Props to pass to block.
 	 */
 	edit( props ) {
 		return <Editor { ...props } />;

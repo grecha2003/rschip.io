@@ -18,11 +18,10 @@
 	.wc-block-grid {
 		.wc-block-grid__products {
 			list-style: none;
-			margin: 0 (-$gap*0.5) $gap;
-			padding: 0;
+			margin: 0;
 
-			.wc-block-grid__product {
-				margin: 0 0 $gap-large 0;
+			.wp-block-button__link {
+				color: inherit;
 			}
 		}
 
@@ -37,26 +36,16 @@
 	}
 }
 
-// Style inline notices in the inspector.
-.components-base-control {
-	+ .wc-block-base-control-notice {
-		margin: -$gap 0 $gap;
+.wc-block-api-error {
+	.components-placeholder__fieldset {
+		display: block;
+		margin: 0;
+		padding: 0;
 	}
-
-	& + .wc-block-base-control-notice:last-child {
-		margin: -$gap 0 $gap-small;
+	.wc-block-error__message {
+		margin-bottom: 16px;
 	}
-}
-
-// Selectors with extra specificity to override some editor styles.
-.woocommerce-search-list__list.woocommerce-search-list__list {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-}
-
-.woocommerce-search-list__selected.woocommerce-search-list__selected > ul {
-	list-style: none;
-	margin: 0;
-	padding: 0;
+	.components-spinner {
+		float: none;
+	}
 }

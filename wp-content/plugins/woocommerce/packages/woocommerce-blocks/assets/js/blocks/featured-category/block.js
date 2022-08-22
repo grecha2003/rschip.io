@@ -7,36 +7,36 @@ import {
 	BlockControls,
 	InnerBlocks,
 	InspectorControls,
-	MediaReplaceFlow,
+	MediaUpload,
+	MediaUploadCheck,
 	PanelColorSettings,
 	withColors,
-	RichText,
-} from '@wordpress/block-editor';
+} from '@wordpress/editor';
 import {
 	Button,
 	FocalPointPicker,
+	IconButton,
 	PanelBody,
 	Placeholder,
 	RangeControl,
 	ResizableBox,
 	Spinner,
 	ToggleControl,
-	ToolbarGroup,
+	Toolbar,
 	withSpokenMessages,
 } from '@wordpress/components';
 import classnames from 'classnames';
-import { Component } from '@wordpress/element';
-import { withSelect } from '@wordpress/data';
-import { compose, createHigherOrderComponent } from '@wordpress/compose';
+import { Fragment } from '@wordpress/element';
+import { compose } from '@wordpress/compose';
 import PropTypes from 'prop-types';
-import { getSetting } from '@woocommerce/settings';
-import { Icon, folderStarred } from '@woocommerce/icons';
-import ProductCategoryControl from '@woocommerce/editor-components/product-category-control';
-import ErrorPlaceholder from '@woocommerce/editor-components/error-placeholder';
+import { MIN_HEIGHT } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
  */
+import { IconFolderStar } from '../../components/icons';
+import ProductCategoryControl from '../../components/product-category-control';
+import ApiErrorPlaceholder from '../../components/api-error-placeholder';
 import {
 	dimRatioToClass,
 	getBackgroundImageStyles,
@@ -47,35 +47,10 @@ import { withCategory } from '../../hocs';
 
 /**
  * Component to handle edit mode of "Featured Category".
- *
- * @param {Object} props Incoming props for the component.
- * @param {Object} props.attributes Incoming block attributes.
- * @param {boolean} props.isSelected Whether block is selected or not.
- * @param {function(any):any} props.setAttributes Function for setting new attributes.
- * @param {string} props.error Error message
- * @param {function(any):any} props.getCategory Function for getting category details.
- * @param {boolean} props.isLoading Whether loading or not.
- * @param {Object} props.category The product category object.
- * @param {Object} props.overlayColor Overlay color object for content.
- * @param {function(any):any} props.setOverlayColor Setter for overlay color.
- * @param {function(any):any} props.debouncedSpeak Function for delayed speak.
- * @param {function():void} props.triggerUrlUpdate Function to update Shop now button Url.
  */
-const FeaturedCategory = ( {
-	attributes,
-	isSelected,
-	setAttributes,
-	error,
-	getCategory,
-	isLoading,
-	category,
-	overlayColor,
-	setOverlayColor,
-	debouncedSpeak,
-	triggerUrlUpdate = () => void null,
-} ) => {
+const FeaturedCategory = ( { attributes, isSelected, setAttributes, error, getCategory, isLoading, category, overlayColor, setOverlayColor, debouncedSpeak } ) => {
 	const renderApiError = () => (
-		<ErrorPlaceholder
+		<ApiErrorPlaceholder
 			className="wc-block-featured-category-error"
 			error={ error }
 			isLoading={ isLoading }
@@ -84,7 +59,7 @@ const FeaturedCategory = ( {
 	);
 
 	const getBlockControls = () => {
-		const { contentAlign, mediaSrc } = attributes;
+		const { contentAlign } = attributes;
 		const mediaId = attributes.mediaId || getCategoryImageId( category );
 
 		return (
@@ -95,35 +70,33 @@ const FeaturedCategory = ( {
 						setAttributes( { contentAlign: nextAlign } );
 					} }
 				/>
-				<MediaReplaceFlow
-					mediaId={ mediaId }
-					mediaURL={ mediaSrc }
-					accept="image/*"
-					onSelect={ ( media ) => {
-						setAttributes( {
-							mediaId: media.id,
-							mediaSrc: media.url,
-						} );
-					} }
-					allowedTypes={ [ 'image' ] }
-				/>
-				<ToolbarGroup
-					controls={ [
-						{
-							icon: 'edit',
-							title: __( 'Edit' ),
-							onClick: () =>
-								setAttributes( { editMode: ! editMode } ),
-							isActive: editMode,
-						},
-					] }
-				/>
+				<MediaUploadCheck>
+					<Toolbar>
+						<MediaUpload
+							onSelect={ ( media ) => {
+								setAttributes( { mediaId: media.id, mediaSrc: media.url } );
+							} }
+							allowedTypes={ [ 'image' ] }
+							value={ mediaId }
+							render={ ( { open } ) => (
+								<IconButton
+									className="components-toolbar__control"
+									label={ __( 'Edit media' ) }
+									icon="format-image"
+									onClick={ open }
+									disabled={ ! category }
+								/>
+							) }
+						/>
+					</Toolbar>
+				</MediaUploadCheck>
 			</BlockControls>
 		);
 	};
 
 	const getInspectorControls = () => {
-		const url = attributes.mediaSrc || getCategoryImageSrc( category );
+		const url =
+			attributes.mediaSrc || getCategoryImageSrc( category );
 		const { focalPoint = { x: 0.5, y: 0.5 } } = attributes;
 		// FocalPointPicker was introduced in Gutenberg 5.0 (WordPress 5.2),
 		// so we need to check if it exists before using it.
@@ -131,18 +104,11 @@ const FeaturedCategory = ( {
 
 		return (
 			<InspectorControls key="inspector">
-				<PanelBody
-					title={ __( 'Content', 'woocommerce' ) }
-				>
+				<PanelBody title={ __( 'Content', 'woocommerce' ) }>
 					<ToggleControl
-						label={ __(
-							'Show description',
-							'woocommerce'
-						) }
+						label={ __( 'Show description', 'woocommerce' ) }
 						checked={ attributes.showDesc }
-						onChange={ () =>
-							setAttributes( { showDesc: ! attributes.showDesc } )
-						}
+						onChange={ () => setAttributes( { showDesc: ! attributes.showDesc } ) }
 					/>
 				</PanelBody>
 				<PanelColorSettings
@@ -151,39 +117,29 @@ const FeaturedCategory = ( {
 						{
 							value: overlayColor.color,
 							onChange: setOverlayColor,
-							label: __(
-								'Overlay Color',
-								'woocommerce'
-							),
+							label: __( 'Overlay Color', 'woocommerce' ),
 						},
 					] }
 				>
 					{ !! url && (
-						<>
+						<Fragment>
 							<RangeControl
-								label={ __(
-									'Background Opacity',
-									'woocommerce'
-								) }
+								label={ __( 'Background Opacity', 'woocommerce' ) }
 								value={ attributes.dimRatio }
-								onChange={ ( ratio ) =>
-									setAttributes( { dimRatio: ratio } )
-								}
+								onChange={ ( ratio ) => setAttributes( { dimRatio: ratio } ) }
 								min={ 0 }
 								max={ 100 }
 								step={ 10 }
 							/>
-							{ focalPointPickerExists && (
+							{ focalPointPickerExists &&
 								<FocalPointPicker
 									label={ __( 'Focal Point Picker' ) }
 									url={ url }
 									value={ focalPoint }
-									onChange={ ( value ) =>
-										setAttributes( { focalPoint: value } )
-									}
+									onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
 								/>
-							) }
-						</>
+							}
+						</Fragment>
 					) }
 				</PanelColorSettings>
 			</InspectorControls>
@@ -203,11 +159,8 @@ const FeaturedCategory = ( {
 
 		return (
 			<Placeholder
-				icon={ <Icon srcElement={ folderStarred } /> }
-				label={ __(
-					'Featured Category',
-					'woocommerce'
-				) }
+				icon={ <IconFolderStar /> }
+				label={ __( 'Featured Category', 'woocommerce' ) }
 				className="wc-block-featured-category"
 			>
 				{ __(
@@ -219,64 +172,15 @@ const FeaturedCategory = ( {
 						selected={ [ attributes.categoryId ] }
 						onChange={ ( value = [] ) => {
 							const id = value[ 0 ] ? value[ 0 ].id : 0;
-							setAttributes( {
-								categoryId: id,
-								mediaId: 0,
-								mediaSrc: '',
-							} );
-							triggerUrlUpdate();
+							setAttributes( { categoryId: id, mediaId: 0, mediaSrc: '' } );
 						} }
 						isSingle
 					/>
-					<Button isPrimary onClick={ onDone }>
+					<Button isDefault onClick={ onDone }>
 						{ __( 'Done', 'woocommerce' ) }
 					</Button>
 				</div>
 			</Placeholder>
-		);
-	};
-
-	const renderButton = () => {
-		const buttonClasses = classnames(
-			'wp-block-button__link',
-			'is-style-fill'
-		);
-		const buttonStyle = {
-			backgroundColor: 'vivid-green-cyan',
-			borderRadius: '5px',
-		};
-		const wrapperStyle = {
-			width: '100%',
-		};
-		return attributes.categoryId === 'preview' ? (
-			<div className="wp-block-button aligncenter" style={ wrapperStyle }>
-				<RichText.Content
-					tagName="a"
-					className={ buttonClasses }
-					href={ category.permalink }
-					title={ attributes.linkText }
-					style={ buttonStyle }
-					value={ attributes.linkText }
-					target={ category.permalink }
-				/>
-			</div>
-		) : (
-			<InnerBlocks
-				template={ [
-					[
-						'core/button',
-						{
-							text: __(
-								'Shop now',
-								'woocommerce'
-							),
-							url: category.permalink,
-							align: 'center',
-						},
-					],
-				] }
-				templateLock="all"
-			/>
 		);
 	};
 
@@ -292,35 +196,36 @@ const FeaturedCategory = ( {
 		const classes = classnames(
 			'wc-block-featured-category',
 			{
-				'is-selected': isSelected && attributes.productId !== 'preview',
+				'is-selected': isSelected,
 				'is-loading': ! category && isLoading,
 				'is-not-found': ! category && ! isLoading,
 				'has-background-dim': dimRatio !== 0,
 			},
 			dimRatioToClass( dimRatio ),
 			contentAlign !== 'center' && `has-${ contentAlign }-content`,
-			className
+			className,
 		);
 		const mediaSrc = attributes.mediaSrc || getCategoryImageSrc( category );
-		const style = !! category ? getBackgroundImageStyles( mediaSrc ) : {};
+		const style = !! category ?
+			getBackgroundImageStyles( mediaSrc ) :
+			{};
 		if ( overlayColor.color ) {
 			style.backgroundColor = overlayColor.color;
 		}
 		if ( focalPoint ) {
-			const bgPosX = focalPoint.x * 100;
-			const bgPosY = focalPoint.y * 100;
-			style.backgroundPosition = `${ bgPosX }% ${ bgPosY }%`;
+			style.backgroundPosition = `${ focalPoint.x * 100 }% ${ focalPoint.y *
+				100 }%`;
 		}
 
 		const onResizeStop = ( event, direction, elt ) => {
-			setAttributes( { height: parseInt( elt.style.height, 10 ) } );
+			setAttributes( { height: parseInt( elt.style.height ) } );
 		};
 
 		return (
 			<ResizableBox
 				className={ classes }
 				size={ { height } }
-				minHeight={ getSetting( 'min_height', 500 ) }
+				minHeight={ MIN_HEIGHT }
 				enable={ { bottom: true } }
 				onResizeStop={ onResizeStop }
 				style={ style }
@@ -341,7 +246,22 @@ const FeaturedCategory = ( {
 						/>
 					) }
 					<div className="wc-block-featured-category__link">
-						{ renderButton() }
+						<InnerBlocks
+							template={ [
+								[
+									'core/button',
+									{
+										text: __(
+											'Shop now',
+											'woocommerce'
+										),
+										url: category.permalink,
+										align: 'center',
+									},
+								],
+							] }
+							templateLock="all"
+						/>
 					</div>
 				</div>
 			</ResizableBox>
@@ -351,16 +271,13 @@ const FeaturedCategory = ( {
 	const renderNoCategory = () => (
 		<Placeholder
 			className="wc-block-featured-category"
-			icon={ <Icon srcElement={ folderStarred } /> }
+			icon={ <IconFolderStar /> }
 			label={ __( 'Featured Category', 'woocommerce' ) }
 		>
 			{ isLoading ? (
 				<Spinner />
 			) : (
-				__(
-					'No product category is selected.',
-					'woocommerce'
-				)
+				__( 'No product category is selected.', 'woocommerce' )
 			) }
 		</Placeholder>
 	);
@@ -376,11 +293,15 @@ const FeaturedCategory = ( {
 	}
 
 	return (
-		<>
+		<Fragment>
 			{ getBlockControls() }
 			{ getInspectorControls() }
-			{ category ? renderCategory() : renderNoCategory() }
-		</>
+			{ category ? (
+				renderCategory()
+			) : (
+				renderNoCategory()
+			) }
+		</Fragment>
 	);
 };
 
@@ -415,66 +336,10 @@ FeaturedCategory.propTypes = {
 	setOverlayColor: PropTypes.func.isRequired,
 	// from withSpokenMessages
 	debouncedSpeak: PropTypes.func.isRequired,
-	triggerUrlUpdate: PropTypes.func,
 };
 
 export default compose( [
 	withCategory,
 	withColors( { overlayColor: 'background-color' } ),
 	withSpokenMessages,
-	withSelect( ( select, { clientId }, { dispatch } ) => {
-		const Block = select( 'core/block-editor' ).getBlock( clientId );
-		const buttonBlockId = Block?.innerBlocks[ 0 ]?.clientId || '';
-		const currentButtonAttributes =
-			Block?.innerBlocks[ 0 ]?.attributes || {};
-		const updateBlockAttributes = ( attributes ) => {
-			if ( buttonBlockId ) {
-				dispatch( 'core/block-editor' ).updateBlockAttributes(
-					buttonBlockId,
-					attributes
-				);
-			}
-		};
-		return { updateBlockAttributes, currentButtonAttributes };
-	} ),
-	createHigherOrderComponent( ( ProductComponent ) => {
-		class WrappedComponent extends Component {
-			state = {
-				doUrlUpdate: false,
-			};
-			componentDidUpdate() {
-				const {
-					attributes,
-					updateBlockAttributes,
-					currentButtonAttributes,
-					category,
-				} = this.props;
-				if (
-					this.state.doUrlUpdate &&
-					! attributes.editMode &&
-					category?.permalink &&
-					currentButtonAttributes?.url &&
-					category.permalink !== currentButtonAttributes.url
-				) {
-					updateBlockAttributes( {
-						...currentButtonAttributes,
-						url: category.permalink,
-					} );
-					this.setState( { doUrlUpdate: false } );
-				}
-			}
-			triggerUrlUpdate = () => {
-				this.setState( { doUrlUpdate: true } );
-			};
-			render() {
-				return (
-					<ProductComponent
-						triggerUrlUpdate={ this.triggerUrlUpdate }
-						{ ...this.props }
-					/>
-				);
-			}
-		}
-		return WrappedComponent;
-	}, 'withUpdateButtonAttributes' ),
 ] )( FeaturedCategory );

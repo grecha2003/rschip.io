@@ -3,8 +3,12 @@
  * Queue Interface
  *
  * @version 3.5.0
- * @package WooCommerce\Interface
+ * @package WooCommerce/Interface
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * WC Queue Interface

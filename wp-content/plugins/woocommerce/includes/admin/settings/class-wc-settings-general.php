@@ -2,7 +2,7 @@
 /**
  * WooCommerce General Settings
  *
- * @package WooCommerce\Admin
+ * @package WooCommerce/Admin
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,11 +27,11 @@ class WC_Settings_General extends WC_Settings_Page {
 	}
 
 	/**
-	 * Get settings or the default section.
+	 * Get settings array.
 	 *
 	 * @return array
 	 */
-	protected function get_settings_for_default_section() {
+	public function get_settings() {
 
 		$currency_code_options = get_woocommerce_currencies();
 
@@ -39,7 +39,19 @@ class WC_Settings_General extends WC_Settings_Page {
 			$currency_code_options[ $code ] = $name . ' (' . get_woocommerce_currency_symbol( $code ) . ')';
 		}
 
-		$settings =
+		$woocommerce_default_customer_address_options = array(
+			''                 => __( 'No location by default', 'woocommerce' ),
+			'base'             => __( 'Shop base address', 'woocommerce' ),
+			'geolocation'      => __( 'Geolocate', 'woocommerce' ),
+			'geolocation_ajax' => __( 'Geolocate (with page caching support)', 'woocommerce' ),
+		);
+
+		if ( version_compare( PHP_VERSION, '5.4', '<' ) ) {
+			unset( $woocommerce_default_customer_address_options['geolocation'], $woocommerce_default_customer_address_options['geolocation_ajax'] );
+		}
+
+		$settings = apply_filters(
+			'woocommerce_general_settings',
 			array(
 
 				array(
@@ -80,7 +92,7 @@ class WC_Settings_General extends WC_Settings_Page {
 					'title'    => __( 'Country / State', 'woocommerce' ),
 					'desc'     => __( 'The country and state or province, if any, in which your business is located.', 'woocommerce' ),
 					'id'       => 'woocommerce_default_country',
-					'default'  => 'US:CA',
+					'default'  => 'GB',
 					'type'     => 'single_select_country',
 					'desc_tip' => true,
 				),
@@ -170,15 +182,10 @@ class WC_Settings_General extends WC_Settings_Page {
 					'title'    => __( 'Default customer location', 'woocommerce' ),
 					'id'       => 'woocommerce_default_customer_address',
 					'desc_tip' => __( 'This option determines a customers default location. The MaxMind GeoLite Database will be periodically downloaded to your wp-content directory if using geolocation.', 'woocommerce' ),
-					'default'  => 'base',
+					'default'  => 'geolocation',
 					'type'     => 'select',
 					'class'    => 'wc-enhanced-select',
-					'options'  => array(
-						''                 => __( 'No location by default', 'woocommerce' ),
-						'base'             => __( 'Shop base address', 'woocommerce' ),
-						'geolocation'      => __( 'Geolocate', 'woocommerce' ),
-						'geolocation_ajax' => __( 'Geolocate (with page caching support)', 'woocommerce' ),
-					),
+					'options'  => $woocommerce_default_customer_address_options,
 				),
 
 				array(
@@ -228,7 +235,7 @@ class WC_Settings_General extends WC_Settings_Page {
 					'title'    => __( 'Currency', 'woocommerce' ),
 					'desc'     => __( 'This controls what currency prices are listed at in the catalog and which currency gateways will take payments in.', 'woocommerce' ),
 					'id'       => 'woocommerce_currency',
-					'default'  => 'USD',
+					'default'  => 'GBP',
 					'type'     => 'select',
 					'class'    => 'wc-enhanced-select',
 					'desc_tip' => true,
@@ -289,9 +296,11 @@ class WC_Settings_General extends WC_Settings_Page {
 					'type' => 'sectionend',
 					'id'   => 'pricing_options',
 				),
-			);
 
-		return apply_filters( 'woocommerce_general_settings', $settings );
+			)
+		);
+
+		return apply_filters( 'woocommerce_get_settings_' . $this->id, $settings );
 	}
 
 	/**
@@ -306,6 +315,24 @@ class WC_Settings_General extends WC_Settings_Page {
 		echo '<div class="color_box">' . wc_help_tip( $desc ) . '
 			<input name="' . esc_attr( $id ) . '" id="' . esc_attr( $id ) . '" type="text" value="' . esc_attr( $value ) . '" class="colorpick" /> <div id="colorPickerDiv_' . esc_attr( $id ) . '" class="colorpickdiv"></div>
 		</div>';
+	}
+
+	/**
+	 * Output the settings.
+	 */
+	public function output() {
+		$settings = $this->get_settings();
+
+		WC_Admin_Settings::output_fields( $settings );
+	}
+
+	/**
+	 * Save settings.
+	 */
+	public function save() {
+		$settings = $this->get_settings();
+
+		WC_Admin_Settings::save_fields( $settings );
 	}
 }
 

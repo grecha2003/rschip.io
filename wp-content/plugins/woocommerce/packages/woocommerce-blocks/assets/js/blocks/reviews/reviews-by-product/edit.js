@@ -2,7 +2,9 @@
  * External dependencies
  */
 import { __, _n, sprintf } from '@wordpress/i18n';
-import { InspectorControls } from '@wordpress/block-editor';
+import {
+	InspectorControls,
+} from '@wordpress/editor';
 import {
 	Button,
 	PanelBody,
@@ -10,34 +12,22 @@ import {
 	withSpokenMessages,
 } from '@wordpress/components';
 import { SearchListItem } from '@woocommerce/components';
+import { Fragment } from '@wordpress/element';
 import PropTypes from 'prop-types';
-import ProductControl from '@woocommerce/editor-components/product-control';
-import { Icon, comment } from '@woocommerce/icons';
 
 /**
  * Internal dependencies
  */
+import ProductControl from '../../../components/product-control';
+import { IconReviewsByProduct } from '../../../components/icons';
 import EditorContainerBlock from '../editor-container-block.js';
 import NoReviewsPlaceholder from './no-reviews-placeholder.js';
-import {
-	getBlockControls,
-	getSharedReviewContentControls,
-	getSharedReviewListControls,
-} from '../edit-utils.js';
+import { getBlockControls, getSharedReviewContentControls, getSharedReviewListControls } from '../edit-utils.js';
 
 /**
  * Component to handle edit mode of "Reviews by Product".
- *
- * @param {Object} props Incoming props for the component.
- * @param {Object} props.attributes Incoming block attributes.
- * @param {function(any):any} props.debouncedSpeak
- * @param {function(any):any} props.setAttributes Setter for block attributes.
  */
-const ReviewsByProductEditor = ( {
-	attributes,
-	debouncedSpeak,
-	setAttributes,
-} ) => {
+const ReviewsByProductEditor = ( { attributes, debouncedSpeak, setAttributes } ) => {
 	const { editMode, productId } = attributes;
 
 	const renderProductControlItem = ( args ) => {
@@ -47,20 +37,19 @@ const ReviewsByProductEditor = ( {
 			<SearchListItem
 				{ ...args }
 				countLabel={ sprintf(
-					/* translators: %d is the review count. */
 					_n(
-						'%d review',
-						'%d reviews',
+						'%d Review',
+						'%d Reviews',
 						item.review_count,
 						'woocommerce'
 					),
 					item.review_count
 				) }
+				showCount
 				aria-label={ sprintf(
-					/* translators: %1$s is the item name, and %2$d is the number of reviews for the item. */
 					_n(
-						'%1$s, has %2$d review',
-						'%1$s, has %2$d reviews',
+						'%s, has %d review',
+						'%s, has %d reviews',
 						item.review_count,
 						'woocommerce'
 					),
@@ -85,23 +74,12 @@ const ReviewsByProductEditor = ( {
 							setAttributes( { productId: id } );
 						} }
 						renderItem={ renderProductControlItem }
-						isCompact={ true }
 					/>
 				</PanelBody>
-				<PanelBody
-					title={ __( 'Content', 'woocommerce' ) }
-				>
-					{ getSharedReviewContentControls(
-						attributes,
-						setAttributes
-					) }
+				<PanelBody title={ __( 'Content', 'woocommerce' ) }>
+					{ getSharedReviewContentControls( attributes, setAttributes ) }
 				</PanelBody>
-				<PanelBody
-					title={ __(
-						'List Settings',
-						'woocommerce'
-					) }
-				>
+				<PanelBody title={ __( 'List Settings', 'woocommerce' ) }>
 					{ getSharedReviewListControls( attributes, setAttributes ) }
 				</PanelBody>
 			</InspectorControls>
@@ -121,17 +99,8 @@ const ReviewsByProductEditor = ( {
 
 		return (
 			<Placeholder
-				icon={
-					<Icon
-						icon={ comment }
-						className="block-editor-block-icon"
-					/>
-				}
-				label={ __(
-					'Reviews by Product',
-					'woocommerce'
-				) }
-				className="wc-block-reviews-by-product"
+				icon={ <IconReviewsByProduct className="block-editor-block-icon" /> }
+				label={ __( 'Reviews by Product', 'woocommerce' ) }
 			>
 				{ __(
 					'Show reviews of your product to build trust',
@@ -150,7 +119,7 @@ const ReviewsByProductEditor = ( {
 						} }
 						renderItem={ renderProductControlItem }
 					/>
-					<Button isPrimary onClick={ onDone }>
+					<Button isDefault onClick={ onDone }>
 						{ __( 'Done', 'woocommerce' ) }
 					</Button>
 				</div>
@@ -163,24 +132,17 @@ const ReviewsByProductEditor = ( {
 	}
 
 	return (
-		<>
+		<Fragment>
 			{ getBlockControls( editMode, setAttributes ) }
 			{ getInspectorControls() }
 			<EditorContainerBlock
 				attributes={ attributes }
-				icon={
-					<Icon
-						icon={ comment }
-						className="block-editor-block-icon"
-					/>
-				}
-				name={ __(
-					'Reviews by Product',
-					'woocommerce'
-				) }
+				className="wc-block-all-reviews"
+				icon={ <IconReviewsByProduct className="block-editor-block-icon" /> }
+				name={ __( 'Reviews by Product', 'woocommerce' ) }
 				noReviewsPlaceholder={ NoReviewsPlaceholder }
 			/>
-		</>
+		</Fragment>
 	);
 };
 

@@ -3,8 +3,12 @@
  * Payment Token Data Store Interface
  *
  * @version 3.0.0
- * @package WooCommerce\Interface
+ * @package WooCommerce/Interface
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * WC Payment Token Data Store Interface

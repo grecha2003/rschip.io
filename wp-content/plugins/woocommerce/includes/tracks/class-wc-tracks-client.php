@@ -5,9 +5,6 @@
  * @package WooCommerce\Tracks
  */
 
-use Automattic\Jetpack\Constants;
-use Automattic\WooCommerce\Utilities\NumberUtil;
-
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -46,11 +43,6 @@ class WC_Tracks_Client {
 	 * @return void
 	 */
 	public static function maybe_set_identity_cookie() {
-		// Do not set on AJAX requests.
-		if ( Constants::is_true( 'DOING_AJAX' ) ) {
-			return;
-		}
-
 		// Bail if cookie already set.
 		if ( isset( $_COOKIE['tk_ai'] ) ) {
 			return;
@@ -72,7 +64,10 @@ class WC_Tracks_Client {
 		}
 
 		// Don't set cookie on API requests.
-		if ( ! Constants::is_true( 'REST_REQUEST' ) && ! Constants::is_true( 'XMLRPC_REQUEST' ) ) {
+		if (
+			! ( defined( 'REST_REQUEST' ) && REST_REQUEST ) &&
+			! ( defined( 'XMLRPC_REQUEST' ) && XMLRPC_REQUEST )
+		) {
 			wc_setcookie( 'tk_ai', $anon_id );
 		}
 	}
@@ -130,7 +125,7 @@ class WC_Tracks_Client {
 	 * @return string A string representing a timestamp.
 	 */
 	public static function build_timestamp() {
-		$ts = NumberUtil::round( microtime( true ) * 1000 );
+		$ts = round( microtime( true ) * 1000 );
 
 		return number_format( $ts, 0, '', '' );
 	}
@@ -144,8 +139,8 @@ class WC_Tracks_Client {
 	public static function get_identity( $user_id ) {
 		$jetpack_lib = '/tracks/client.php';
 
-		if ( class_exists( 'Jetpack' ) && Constants::is_defined( 'JETPACK__VERSION' ) ) {
-			if ( version_compare( Constants::get_constant( 'JETPACK__VERSION' ), '7.5', '<' ) ) {
+		if ( class_exists( 'Jetpack' ) && defined( 'JETPACK__VERSION' ) ) {
+			if ( version_compare( JETPACK__VERSION, '7.5', '<' ) ) {
 				if ( file_exists( jetpack_require_lib_dir() . $jetpack_lib ) ) {
 					include_once jetpack_require_lib_dir() . $jetpack_lib;
 					if ( function_exists( 'jetpack_tracks_get_identity' ) ) {
@@ -202,7 +197,6 @@ class WC_Tracks_Client {
 					$binary .= chr( wp_rand( 0, 255 ) );
 				}
 
-				// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 				$anon_id = 'woo:' . base64_encode( $binary );
 			}
 		}

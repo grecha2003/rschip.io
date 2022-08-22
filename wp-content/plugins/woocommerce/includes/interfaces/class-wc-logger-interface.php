@@ -3,8 +3,12 @@
  * Logger Interface
  *
  * @version 3.0.0
- * @package WooCommerce\Interface
+ * @package WooCommerce/Interface
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 
 /**
  * WC Logger Interface

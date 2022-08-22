@@ -4,7 +4,7 @@
  *
  * The WooCommerce product variation class handles product variation data.
  *
- * @package WooCommerce\Classes
+ * @package WooCommerce/Classes
  * @version 3.0.0
  */
 
@@ -110,18 +110,15 @@ class WC_Product_Variation extends WC_Product_Simple {
 	}
 
 	/**
-	 * Get variation attribute values. Keys are prefixed with attribute_, as stored, unless $with_prefix is false.
+	 * Get variation attribute values. Keys are prefixed with attribute_, as stored.
 	 *
-	 * @param bool $with_prefix Whether keys should be prepended with attribute_ or not, default is true.
-	 * @return array of attributes and their values for this variation.
+	 * @return array of attributes and their values for this variation
 	 */
-	public function get_variation_attributes( $with_prefix = true ) {
+	public function get_variation_attributes() {
 		$attributes           = $this->get_attributes();
 		$variation_attributes = array();
-		$prefix               = $with_prefix ? 'attribute_' : '';
-
 		foreach ( $attributes as $key => $value ) {
-			$variation_attributes[ $prefix . $key ] = $value;
+			$variation_attributes[ 'attribute_' . $key ] = $value;
 		}
 		return $variation_attributes;
 	}
@@ -286,7 +283,7 @@ class WC_Product_Variation extends WC_Product_Simple {
 	/**
 	 * Returns the tax class.
 	 *
-	 * Does not use get_prop so it can handle 'parent' inheritance correctly.
+	 * Does not use get_prop so it can handle 'parent' Inheritance correctly.
 	 *
 	 * @param  string $context view, edit, or unfiltered.
 	 * @return string

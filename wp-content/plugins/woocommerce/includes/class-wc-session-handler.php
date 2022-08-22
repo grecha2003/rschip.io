@@ -7,10 +7,8 @@
  *
  * @class    WC_Session_Handler
  * @version  2.5.0
- * @package  WooCommerce\Classes
+ * @package  WooCommerce/Classes
  */
-
-use Automattic\Jetpack\Constants;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -75,7 +73,7 @@ class WC_Session_Handler extends WC_Session {
 		add_action( 'wp_logout', array( $this, 'destroy_session' ) );
 
 		if ( ! is_user_logged_in() ) {
-			add_filter( 'nonce_user_logged_out', array( $this, 'maybe_update_nonce_user_logged_out' ), 10, 2 );
+			add_filter( 'nonce_user_logged_out', array( $this, 'nonce_user_logged_out' ) );
 		}
 	}
 
@@ -188,25 +186,6 @@ class WC_Session_Handler extends WC_Session {
 	}
 
 	/**
-	 * Get session unique ID for requests if session is initialized or user ID if logged in.
-	 * Introduced to help with unit tests.
-	 *
-	 * @since 5.3.0
-	 * @return string
-	 */
-	public function get_customer_unique_id() {
-		$customer_id = '';
-
-		if ( $this->has_session() && $this->_customer_id ) {
-			$customer_id = $this->_customer_id;
-		} elseif ( is_user_logged_in() ) {
-			$customer_id = (string) get_current_user_id();
-		}
-
-		return $customer_id;
-	}
-
-	/**
 	 * Get the session cookie, if set. Otherwise return false.
 	 *
 	 * Session cookies without a customer ID are invalid.
@@ -307,31 +286,11 @@ class WC_Session_Handler extends WC_Session {
 	/**
 	 * When a user is logged out, ensure they have a unique nonce by using the customer/session ID.
 	 *
-	 * @deprecated 5.3.0
 	 * @param int $uid User ID.
-	 * @return int|string
+	 * @return string
 	 */
 	public function nonce_user_logged_out( $uid ) {
-		wc_deprecated_function( 'WC_Session_Handler::nonce_user_logged_out', '5.3', 'WC_Session_Handler::maybe_update_nonce_user_logged_out' );
-
 		return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
-	}
-
-	/**
-	 * When a user is logged out, ensure they have a unique nonce to manage cart and more using the customer/session ID.
-	 * This filter runs everything `wp_verify_nonce()` and `wp_create_nonce()` gets called.
-	 *
-	 * @since 5.3.0
-	 * @param int    $uid    User ID.
-	 * @param string $action The nonce action.
-	 * @return int|string
-	 */
-	public function maybe_update_nonce_user_logged_out( $uid, $action ) {
-		if ( Automattic\WooCommerce\Utilities\StringUtil::starts_with( $action, 'woocommerce' ) ) {
-			return $this->has_session() && $this->_customer_id ? $this->_customer_id : $uid;
-		}
-
-		return $uid;
 	}
 
 	/**
@@ -343,7 +302,7 @@ class WC_Session_Handler extends WC_Session {
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $this->_table WHERE session_expiry < %d", time() ) ); // @codingStandardsIgnoreLine.
 
 		if ( class_exists( 'WC_Cache_Helper' ) ) {
-			WC_Cache_Helper::invalidate_cache_group( WC_SESSION_CACHE_GROUP );
+			WC_Cache_Helper::incr_cache_prefix( WC_SESSION_CACHE_GROUP );
 		}
 	}
 
@@ -357,7 +316,7 @@ class WC_Session_Handler extends WC_Session {
 	public function get_session( $customer_id, $default = false ) {
 		global $wpdb;
 
-		if ( Constants::is_defined( 'WP_SETUP_CONFIG' ) ) {
+		if ( defined( 'WP_SETUP_CONFIG' ) ) {
 			return false;
 		}
 

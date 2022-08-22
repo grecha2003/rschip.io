@@ -9,7 +9,7 @@ import PropTypes from 'prop-types';
 /**
  * Internal dependencies
  */
-import { getSortArgs } from './utils';
+import { getOrderArgs } from './utils';
 import FrontendBlock from './frontend-block';
 
 /**
@@ -34,8 +34,7 @@ class FrontendContainerBlock extends Component {
 		const { reviewsToDisplay } = this.state;
 
 		this.setState( {
-			reviewsToDisplay:
-				reviewsToDisplay + parseInt( attributes.reviewsOnLoadMore, 10 ),
+			reviewsToDisplay: reviewsToDisplay + parseInt( attributes.reviewsOnLoadMore, 10 ),
 		} );
 	}
 
@@ -51,14 +50,13 @@ class FrontendContainerBlock extends Component {
 	onReviewsAppended( { newReviews } ) {
 		speak(
 			sprintf(
-				/* translators: %d is the count of reviews loaded. */
 				_n(
 					'%d review loaded.',
 					'%d reviews loaded.',
 					newReviews.length,
 					'woocommerce'
 				),
-				newReviews.length
+				newReviews.length,
 			)
 		);
 	}
@@ -68,19 +66,14 @@ class FrontendContainerBlock extends Component {
 	}
 
 	onReviewsLoadError() {
-		speak(
-			__(
-				'There was an error loading the reviews.',
-				'woocommerce'
-			)
-		);
+		speak( __( 'There was an error loading the reviews.', 'woocommerce' ) );
 	}
 
 	render() {
 		const { attributes } = this.props;
 		const { categoryIds, productId } = attributes;
 		const { reviewsToDisplay } = this.state;
-		const { order, orderby } = getSortArgs( this.state.orderby );
+		const { order, orderby } = getOrderArgs( this.state.orderby );
 
 		return (
 			<FrontendBlock
@@ -95,7 +88,6 @@ class FrontendContainerBlock extends Component {
 				orderby={ orderby }
 				productId={ productId }
 				reviewsToDisplay={ reviewsToDisplay }
-				sortSelectValue={ this.state.orderby }
 			/>
 		);
 	}

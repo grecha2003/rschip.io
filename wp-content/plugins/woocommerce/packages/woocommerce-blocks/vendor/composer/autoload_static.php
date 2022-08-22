@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit05c8e4d171d261276c23837710508e77
+class ComposerStaticInit5447294f8521a275d43ab3c650c8b3b8
 {
     public static $prefixLengthsPsr4 = array (
         'C' => 
@@ -33,17 +33,11 @@ class ComposerStaticInit05c8e4d171d261276c23837710508e77
         ),
     );
 
-    public static $classMap = array (
-        'Automattic\\Jetpack\\Autoloader\\AutoloadGenerator' => __DIR__ . '/..' . '/automattic/jetpack-autoloader/src/AutoloadGenerator.php',
-        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit05c8e4d171d261276c23837710508e77::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit05c8e4d171d261276c23837710508e77::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit05c8e4d171d261276c23837710508e77::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit5447294f8521a275d43ab3c650c8b3b8::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit5447294f8521a275d43ab3c650c8b3b8::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

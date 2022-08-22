@@ -4,14 +4,12 @@
  *
  * @class    WC_Admin_Taxonomies
  * @version  2.3.10
- * @package  WooCommerce\Admin
+ * @package  WooCommerce/Admin
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
-
-use Automattic\WooCommerce\Internal\AssignDefaultCategory;
 
 /**
  * WC_Admin_Taxonomies class.
@@ -51,12 +49,6 @@ class WC_Admin_Taxonomies {
 
 		// Category/term ordering.
 		add_action( 'create_term', array( $this, 'create_term' ), 5, 3 );
-		add_action(
-			'delete_product_cat',
-			function() {
-				wc_get_container()->get( AssignDefaultCategory::class )->schedule_action();
-			}
-		);
 
 		// Add form.
 		add_action( 'product_cat_add_form_fields', array( $this, 'add_category_fields' ) );
@@ -99,7 +91,7 @@ class WC_Admin_Taxonomies {
 	 * @param string $taxonomy Taxonomy slug.
 	 */
 	public function create_term( $term_id, $tt_id = '', $taxonomy = '' ) {
-		if ( 'product_cat' !== $taxonomy && ! taxonomy_is_product_attribute( $taxonomy ) ) {
+		if ( 'product_cat' != $taxonomy && ! taxonomy_is_product_attribute( $taxonomy ) ) {
 			return;
 		}
 
@@ -395,7 +387,7 @@ class WC_Admin_Taxonomies {
 	 * @param object $term Term object.
 	 * @return array
 	 */
-	public function product_cat_row_actions( $actions, $term ) {
+	public function product_cat_row_actions( $actions = array(), $term ) {
 		$default_category_id = absint( get_option( 'default_product_cat', 0 ) );
 
 		if ( $default_category_id !== $term->term_id && current_user_can( 'edit_term', $term->term_id ) ) {

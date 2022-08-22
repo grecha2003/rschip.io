@@ -3,8 +3,12 @@
  * Order Data Store Interface
  *
  * @version 3.0.0
- * @package WooCommerce\Interfaces
+ * @package WooCommerce/Interfaces
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * WC Order Data Store Interface

@@ -2,17 +2,15 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { InnerBlocks } from '@wordpress/block-editor';
+import { InnerBlocks } from '@wordpress/editor';
 import { registerBlockType } from '@wordpress/blocks';
-import { getSetting } from '@woocommerce/settings';
-import { Icon, star } from '@woocommerce/icons';
+import { DEFAULT_HEIGHT } from '@woocommerce/block-settings';
 
 /**
  * Internal dependencies
  */
 import './style.scss';
 import './editor.scss';
-import { example } from './example';
 import Block from './block';
 
 /**
@@ -21,7 +19,7 @@ import Block from './block';
 registerBlockType( 'woocommerce/featured-product', {
 	title: __( 'Featured Product', 'woocommerce' ),
 	icon: {
-		src: <Icon srcElement={ star } />,
+		src: 'star-filled',
 		foreground: '#96588a',
 	},
 	category: 'woocommerce',
@@ -34,7 +32,6 @@ registerBlockType( 'woocommerce/featured-product', {
 		align: [ 'wide', 'full' ],
 		html: false,
 	},
-	example,
 	attributes: {
 		/**
 		 * Alignment of content inside block.
@@ -72,7 +69,7 @@ registerBlockType( 'woocommerce/featured-product', {
 		 */
 		height: {
 			type: 'number',
-			default: getSetting( 'default_height', 500 ),
+			default: DEFAULT_HEIGHT,
 		},
 
 		/**
@@ -135,20 +132,10 @@ registerBlockType( 'woocommerce/featured-product', {
 			type: 'boolean',
 			default: true,
 		},
-
-		/**
-		 * Product preview.
-		 */
-		previewProduct: {
-			type: 'object',
-			default: null,
-		},
 	},
 
 	/**
 	 * Renders and manages the block.
-	 *
-	 * @param {Object} props Props to pass to block.
 	 */
 	edit( props ) {
 		return <Block { ...props } />;

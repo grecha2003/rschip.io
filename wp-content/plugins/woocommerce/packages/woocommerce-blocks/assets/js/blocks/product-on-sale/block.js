@@ -2,31 +2,18 @@
  * External dependencies
  */
 import { __ } from '@wordpress/i18n';
-import { Component } from '@wordpress/element';
-import { Disabled, PanelBody, Placeholder } from '@wordpress/components';
-import { InspectorControls } from '@wordpress/block-editor';
-import ServerSideRender from '@wordpress/server-side-render';
+import { Component, Fragment } from '@wordpress/element';
+import { Disabled, PanelBody } from '@wordpress/components';
+import { InspectorControls, ServerSideRender } from '@wordpress/editor';
 import PropTypes from 'prop-types';
-import GridContentControl from '@woocommerce/editor-components/grid-content-control';
-import GridLayoutControl from '@woocommerce/editor-components/grid-layout-control';
-import ProductCategoryControl from '@woocommerce/editor-components/product-category-control';
-import ProductOrderbyControl from '@woocommerce/editor-components/product-orderby-control';
-import { gridBlockPreview } from '@woocommerce/resource-previews';
-import { Icon, tag } from '@woocommerce/icons';
-import { getSetting } from '@woocommerce/settings';
 
-const EmptyPlaceholder = () => (
-	<Placeholder
-		icon={ <Icon srcElement={ tag } /> }
-		label={ __( 'On Sale Products', 'woocommerce' ) }
-		className="wc-block-product-on-sale"
-	>
-		{ __(
-			'This block shows on-sale products. There are currently no discounted products in your store.',
-			'woocommerce'
-		) }
-	</Placeholder>
-);
+/**
+ * Internal dependencies
+ */
+import GridContentControl from '../../components/grid-content-control';
+import GridLayoutControl from '../../components/grid-layout-control';
+import ProductCategoryControl from '../../components/product-category-control';
+import ProductOrderbyControl from '../../components/product-orderby-control';
 
 /**
  * Component to handle edit mode of "On Sale Products".
@@ -55,10 +42,6 @@ class ProductOnSaleBlock extends Component {
 						rows={ rows }
 						alignButtons={ alignButtons }
 						setAttributes={ setAttributes }
-						minColumns={ getSetting( 'min_columns', 1 ) }
-						maxColumns={ getSetting( 'max_columns', 6 ) }
-						minRows={ getSetting( 'min_rows', 1 ) }
-						maxRows={ getSetting( 'max_rows', 6 ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -67,9 +50,7 @@ class ProductOnSaleBlock extends Component {
 				>
 					<GridContentControl
 						settings={ contentVisibility }
-						onChange={ ( value ) =>
-							setAttributes( { contentVisibility: value } )
-						}
+						onChange={ ( value ) => setAttributes( { contentVisibility: value } ) }
 					/>
 				</PanelBody>
 				<PanelBody
@@ -107,21 +88,13 @@ class ProductOnSaleBlock extends Component {
 	render() {
 		const { attributes, name } = this.props;
 
-		if ( attributes.isPreview ) {
-			return gridBlockPreview;
-		}
-
 		return (
-			<>
+			<Fragment>
 				{ this.getInspectorControls() }
 				<Disabled>
-					<ServerSideRender
-						block={ name }
-						attributes={ attributes }
-						EmptyResponsePlaceholder={ EmptyPlaceholder }
-					/>
+					<ServerSideRender block={ name } attributes={ attributes } />
 				</Disabled>
-			</>
+			</Fragment>
 		);
 	}
 }
